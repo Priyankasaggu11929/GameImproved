@@ -1,0 +1,23 @@
+{
+  "name": "phaser_sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install_game": "cd www-root && node ../node_modules/bower/bin/bower install && cd ../ && node node_modules/grunt-cli/bin/grunt generate-pack-json",
+    "postinstall": "npm run install_game",
+    "start": "node node_modules/http-server/bin/http-server www-root"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bower": "^1.8.2",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-wiredep": "^3.0.1",
+    "http-server": "^0.10.0",
+    "sweetalert": "^2.1.2"
+  }
+}
