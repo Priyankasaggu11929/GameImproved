@@ -126,6 +126,11 @@ Hero.prototype.die = function () {
     }, this);
 };
 
+Hero.prototype.diefalse = function () {
+    this.animations.play('die');
+};
+
+
 // returns the animation name that should be playing depending on
 // current circumstances
 Hero.prototype._getAnimationName = function () {
@@ -262,20 +267,20 @@ QuizGame.PlayState.prototype = {
 
     // update scoreboards
     this.coinFont.text = `x${this.coinPickupCount}`;
-    this.keyIcon.frame = this.hasKey ? 1 : 0;
+    this.keyIcon.frame = this.hasKey ? 1 : 0;	    
     
 
     if (this.lifeCount ==3){
-     this.keyIcon.frame = 1;
+     this.lifeIcon.frame = 0;
     }
     else if (this.lifeCount ==2) {
-     this.keyIcon.frame = 2;
+     this.lifeIcon.frame = 1;
     }
     else {
-    this.keyIcon.frame = 3;
+    this.lifeIcon.frame = 2;
     }
-    },
-
+	
+	},
     shutdown: function () {
     this.bgm.stop();
     },
@@ -343,14 +348,16 @@ QuizGame.PlayState.prototype = {
         hero.bounce();
         this.sfx.stomp.play();
     }
+	
     else { // game over -> play dying animation and restart the game
+	 
         hero.die();
         this.sfx.stomp.play();
         hero.events.onKilled.addOnce(function () {
-            this.game.state.restart(true, false, {level: this.level});
-	    this.lifeCount--;	
+            this.game.state.restart(true, false, {level: this.level}, this.lifeCount);
         }, this);
 
+	this.lifeCount--;
         // NOTE: bug in phaser in which it modifies 'touching' when
         // checking for overlaps. This undoes that change so spiders don't
         // 'bounce' agains the hero
@@ -365,50 +372,91 @@ QuizGame.PlayState.prototype = {
 	  
     hero.freeze();
 	    
-    
-    if (this.level == 0){
+    if (this.level ==0){
+   	 
+       this.answer= dialog.prompt({
+			title: "Prompt example",
+			message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consectetur lacus at gravida luctus. Duis vitae magna tellus. In risus lorem, mollis vel nisi vitae, suscipit aliquet tortor.",
+			button: "Send",
+			required: true,
+			position: "absolute",
+			animation: "slide",
+			input: {
+				type: "text",
+				placeholder: "This is a placeholder..."
+			},
+			validate: function(value){
+				if( $.trim(value) === "" )
+				{
+					return false;
+				}
+			},
+			callback: function(value){
+				console.log(value);
+				if (value == "21"){
+				swal( "Wow!", "You made it to next level!", "success");
+/*				this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this);*/
 
-	 this.answer = prompt("What is your name?");
-	 if (this.answer == "Priyanka")  {
-	  setTimeout(function() {
-        swal({
-            title: "Wow!",
-            text: "Message!",
-            type: "success"
-        })
-    }, 1000);	       
-		  this.game.add.tween(hero)
+						return value;
+				}
+				else{
+				 swal( "Play Again!", "Ah! You missed this time!","error");
+				 this.game.state.restart(true, false, {level: this.level});
+
+				
+				}
+
+
+							}
+		}); 
+
+	    console.log(this.answer);
+
+		
+
+/*
+	this.answer = prompt("What is your age?");
+	    
+         if (this.answer == "21")  {
+            swal( "Wow!", "You made it to next level!", "success");
+            
+            this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
             .onComplete.addOnce(this._goToNextLevel, this);
 
        }
-	    else{
-		
-		    while(this.count<3){
+            else{
+
+                    while(this.count<3){
+
+                        if(this.count ==2){
+                    swal( "Play Again!", "Ah! You missed this time!","error");
+
+                        break;
+                        }
+
+                        else{
+                 
+                //                swal("Try Again!", "You gave a wrong answer", "warning");
+			swal({
+  title: "Auto close alert!",
+  text: "I will close in 2 seconds.",
+  timer: 2000,
+  type: "warning"
+});
+//                        this.answer = prompt("What is your Age?");
 			
-			if(this.count ==2){
-		    setTimeout(function() {
-		    swal({
-			    title: "Play Again!",
-	        	    text: "Ah! You missed this time.",
-		            type: "error"
-       			 })}, 1000); 
+                        }
 
-			break;
-			}
+            }
 
-			else{
-				this.count++;
-				swal("Try Again!", "You gave a wrong answer", "warning");
-			
-			}
-			    
-	    }
+                     this.game.state.restart(true, false, {level: this.level});
 
-		     this.game.state.restart(true, false, {level: this.level});
-
-	  }
+          } */
  }
+
 
    
 
@@ -416,13 +464,7 @@ QuizGame.PlayState.prototype = {
     
    this.answer = prompt("What is your Age?");
 	 if (this.answer == "21")  {
-	  setTimeout(function() {
-        swal({
-            title: "Wow!",
-            text: "Message!",
-            type: "success"
-        })
-    }, 1000);	       
+	    swal( "Wow!", "You made it to next level!", "success");
 		  this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
             .onComplete.addOnce(this._goToNextLevel, this);
@@ -433,12 +475,7 @@ QuizGame.PlayState.prototype = {
 		    while(this.count<3){
 			
 			if(this.count ==2){
-		    setTimeout(function() {
-		    swal({
-			    title: "Play Again!",
-	        	    text: "Ah! You missed this time.",
-		            type: "error"
-       			 })}, 1000); 
+		    swal( "Play Again!", "Ah! You missed this time!","error");
 
 			break;
 			}
@@ -446,7 +483,8 @@ QuizGame.PlayState.prototype = {
 			else{
 				this.count++;
 				swal("Try Again!", "You gave a wrong answer", "warning");
-			
+			this.answer = prompt("What is your Age?");
+
 			}
 			    
 	    }
@@ -460,29 +498,20 @@ QuizGame.PlayState.prototype = {
     else if (this.level ==2){
      this.answer = prompt("Wanna play more?");
 	 if (this.answer == "Yes")  {
-	  setTimeout(function() {
-        swal({
-            title: "Wow!",
-            text: "Message!",
-            type: "success"
-        })
-    }, 1000);	       
+	    swal( "Voila!", "You made it to end!", "success");
 		  this.game.state.start('endgame');
        }
 	    else{
 		    while(this.count<3){	
 			if(this.count ==2){
-		    setTimeout(function() {
-		    swal({
-			    title: "Play Again!",
-	        	    text: "Ah! You missed this time.",
-		            type: "error"
-       			 })}, 1000); 
+		    swal( "Play Again!", "Ah! You missed this time!","error");
+
 			break;
 			}
 			else{
 				this.count++;
 				swal("Try Again!", "You gave a wrong answer", "warning");
+				this.answer=prompt("Wanna Play more?");
 			}
 	    }
 		     this.game.state.restart(true, false, {level: this.level});
@@ -632,12 +661,11 @@ QuizGame.PlayState.prototype = {
         coinIcon.height / 2, this.coinFont);
     coinScoreImg.anchor.set(0, 0.5);
 
-     this.lifeIcon = this.game.make.image(this.keyIcon.width+100,19, 'icon:life');
+     this.lifeIcon = this.game.make.image(this.keyIcon.width+125,19, 'icon:life');
     this.lifeIcon.anchor.set(0,0.5);
 
 
     this.hud = this.game.add.group();
-//    this.hud.add(lifeIcon);
     this.hud.add(coinIcon);
     this.hud.add(coinScoreImg);
     this.hud.add(this.keyIcon);
