@@ -32,6 +32,7 @@ QuizGame.EndGame.prototype = {
         buttonStarOver.alignTo(imageWin, Phaser.BOTTOM_CENTER, 0);
     },
     onStarOver: function(){
-        this.state.start('options');
+
+	    this.state.start('home');
     }
 }

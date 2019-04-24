@@ -206,7 +206,7 @@ Spider.prototype.die = function () {
 // =============================================================================
 // Play state
 // =============================================================================
-const LEVEL_COUNT = 3;
+const LEVEL_COUNT = 9;
 
 var QuizGame = QuizGame || {};
 
@@ -364,8 +364,9 @@ QuizGame.PlayState.prototype = {
         enemy.body.touching = enemy.body.wasTouching;
     }
     },
+	
 
-    _onHeroVsDoor: function (hero, door) {
+    _onHeroVsDoor: async function (hero, door) {
     // 'open' the door by changing its graphic and playing a sfx
     door.frame = 1;
     this.sfx.door.play();
@@ -373,153 +374,389 @@ QuizGame.PlayState.prototype = {
     hero.freeze();
 	    
     if (this.level ==0){
-   	 
-       this.answer= dialog.prompt({
-			title: "Prompt example",
-			message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consectetur lacus at gravida luctus. Duis vitae magna tellus. In risus lorem, mollis vel nisi vitae, suscipit aliquet tortor.",
-			button: "Send",
-			required: true,
-			position: "absolute",
-			animation: "slide",
-			input: {
-				type: "text",
-				placeholder: "This is a placeholder..."
-			},
-			validate: function(value){
-				if( $.trim(value) === "" )
-				{
-					return false;
-				}
-			},
-			callback: function(value){
-				console.log(value);
-				if (value == "21"){
-				swal( "Wow!", "You made it to next level!", "success");
-/*				this.game.add.tween(hero)
-            .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this);*/
 
-						return value;
-				}
-				else{
-				 swal( "Play Again!", "Ah! You missed this time!","error");
-				 this.game.state.restart(true, false, {level: this.level});
-
-				
-				}
-
-
-							}
-		}); 
-
-	    console.log(this.answer);
-
-		
-
-/*
-	this.answer = prompt("What is your age?");
-	    
-         if (this.answer == "21")  {
-            swal( "Wow!", "You made it to next level!", "success");
-            
-            this.game.add.tween(hero)
-            .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this);
-
-       }
-            else{
-
-                    while(this.count<3){
-
-                        if(this.count ==2){
-                    swal( "Play Again!", "Ah! You missed this time!","error");
-
-                        break;
-                        }
-
-                        else{
-                 
-                //                swal("Try Again!", "You gave a wrong answer", "warning");
-			swal({
-  title: "Auto close alert!",
-  text: "I will close in 2 seconds.",
-  timer: 2000,
-  type: "warning"
+	  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
 });
-//                        this.answer = prompt("What is your Age?");
-			
-                        }
 
-            }
+Toast.fire({
+  type: 'info',
+  title: 'level 1'
+});  
+   	 const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'The World Largest desert is?',
+	 input: 'select',
+  	 inputOptions: {
+	    'Thar': 'Thar',
+	    'Kalahari': 'Kalahari',
+	    'Sahara': 'Sahara',
+	    'Sonoran': 'Sonoran'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Sahara') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
 
-                     this.game.state.restart(true, false, {level: this.level});
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
 
-          } */
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}
+
  }
 
 
-   
-
     else if (this.level ==1){
-    
-   this.answer = prompt("What is your Age?");
-	 if (this.answer == "21")  {
-	    swal( "Wow!", "You made it to next level!", "success");
-		  this.game.add.tween(hero)
-            .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this);
-
-       }
-	    else{
-		
-		    while(this.count<3){
-			
-			if(this.count ==2){
-		    swal( "Play Again!", "Ah! You missed this time!","error");
-
-			break;
-			}
-
-			else{
-				this.count++;
-				swal("Try Again!", "You gave a wrong answer", "warning");
-			this.answer = prompt("What is your Age?");
-
-			}
-			    
-	    }
-
-		     this.game.state.restart(true, false, {level: this.level});
-
+	const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'Mount Everest is located in which country?',
+	 input: 'select',
+  	 inputOptions: {
+	    'India': 'India',
+	    'Nepal': 'Nepal',
+	    'Tibet': 'Tibet',
+	    'China': 'China'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Nepal') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
 	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    
  }
 
     
     else if (this.level ==2){
-     this.answer = prompt("Wanna play more?");
-	 if (this.answer == "Yes")  {
-	    swal( "Voila!", "You made it to end!", "success");
-		  this.game.state.start('endgame');
-       }
-	    else{
-		    while(this.count<3){	
-			if(this.count ==2){
-		    swal( "Play Again!", "Ah! You missed this time!","error");
-
-			break;
-			}
-			else{
-				this.count++;
-				swal("Try Again!", "You gave a wrong answer", "warning");
-				this.answer=prompt("Wanna Play more?");
-			}
-	    }
-		     this.game.state.restart(true, false, {level: this.level});
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'Which Capital city is known as Pink City of India?',
+	 input: 'select',
+  	 inputOptions: {
+	    'Mysore': 'Mysore',
+	    'Karnataka': 'Karnataka',
+	    'Hyderabad': 'Hyderabad',
+	    'Jaipur': 'Jaipur'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Jaipur') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
 	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    
  }
 
+	    
+    else if (this.level ==3){
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: ' Country that was called as Land of Rising Sun?',
+	 input: 'select',
+  	 inputOptions: {
+	    'Russia': 'Russia',
+	    'Japan': 'Japan',
+	    'Korea': 'Korea',
+	    'Holland': 'Holland'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Japan') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    
+ }
+
+	    
+    else if (this.level ==4){
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'Which is the hottest planet in the solar system ?',
+	 input: 'select',
+  	 inputOptions: {
+	    'Earth': 'Earth',
+	    'Venus': 'Venus',
+	    'Jupiter': 'Jupiter',
+	    'Mars': 'Mars'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Venus') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    
+ }
+
+	
+	  else if (this.level ==5){
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'Which gas is used for the preparation of Soda water?',
+	 input: 'select',
+  	 inputOptions: {
+	    'Oxygen': 'Oxygen',
+	    'Carbon Dioxide': 'Carbon Dioxide',
+	    'Ammonia': 'Ammonia',
+	    'Hydrogen': 'Hydrogen'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Carbon Dioxide') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    	
+}
+	    
+    else if (this.level ==6){
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'Headquarters of UNO are situated at which place?',
+	 input: 'select',
+  	 inputOptions: {
+	    'New York, USA': 'New York, USA',
+	    'Hague (Netherlands)': 'Hague (Netherlands)',
+	    'Geneva': 'Geneva',
+	    'Paris': 'Paris'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'New York, USA') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    
+}
+
+	  else if (this.level ==7){
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'How many straight edges does a cube have?',
+	 input: 'select',
+  	 inputOptions: {
+	    '4': '4',
+	    '6': '6',
+	    '10': '10',
+	    '12': '12'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === '12') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
+
+	if (ans) {
+			Swal.fire({
+			type: 'success',
+		        title:'Yipee, you made it to next level',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+	this.game.add.tween(hero)
+            .to({x: this.door.x, alpha: 0}, 500, null, true)
+            .onComplete.addOnce(this._goToNextLevel, this); 
+	}    	 
+}
+
+	 else if (this.level ==8){
+     const {value: ans} =  await Swal.fire({
+	 type: 'question',
+	 title: 'How many players are there in an ice hockey team?',
+	 input: 'select',
+  	 inputOptions: {
+	    'Five': 'Five',
+	    'Six': 'Six',
+	    'Ten': 'Ten',
+	    'Twelve': 'Twelve'
+	  },
+	  inputPlaceholder: 'Choose your answer...',
+	  showCancelButton: true,
+	  inputValidator: (value) => {
+		return new Promise((resolve) => {
+		if (value === 'Six') {
+		        resolve()
+		      } 
+		else {
+		        resolve('Try selecting another option :)')
+		      }
+		    })
+	  }
+	})
+
+	if (ans) {Swal.fire({
+			type: 'success',
+		        title:'Voila, You made it till end!',
+		       	text:'You chose the correct answer: ' + ans,		
+			timer: 1500
+
+		});
+
+
+		this.game.state.start('endgame'); 
+	}    
+ }
+},
     // play 'enter door' animation and change to the next level when it ends
-    },
 
     _goToNextLevel: function () {
     this.camera.fade('#000000');
@@ -534,6 +771,17 @@ QuizGame.PlayState.prototype = {
 	}
 */
 
+		const Toast = Swal.mixin({
+ 			 toast: true,
+			  position: 'top',	
+			  showConfirmButton: false,
+			  timer: 3000
+			});
+
+		Toast.fire({
+		  type: 'info',
+		  title: 'Level '+(this.level+2)
+		})    
         // change to next level
         this.game.state.restart(true, false, {
             level: this.level + 1

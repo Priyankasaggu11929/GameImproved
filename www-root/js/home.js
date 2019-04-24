@@ -33,12 +33,15 @@ QuizGame.Home.prototype = {
         // this.load.audio('yippee', "assets/audios/sm64_mario_yippee.wav");
     },
     create: function () {
-        this.game.stage.backgroundColor = '#f4bf42';
+      //  this.game.stage.backgroundColor = '#f4bf42';
+	   this.game.add.image(0, 0, 'quiz-time');
         
         var rectCanvas = QuizGame.Utils.getRectCanvas();
-        var bg = this.game.add.sprite(640,320, 'quiz-time').anchor.setTo(0.5);
 
-        var intro_btn = this.game.add.button(600, 380, 'buttonNext', this.actionOnClick,this,2,1,0);
+	    //var bg = this.game.add.sprite(640,320, 'quiz-time').anchor.setTo(0.5);
+	
+
+        var intro_btn = this.game.add.button(400, 340, 'buttonNext', this.actionOnClick,this,2,1,0);
         
         // var data = this.game.cache.getJSON('questions');
         // this.remainingLives = data.lives;
@@ -88,7 +91,7 @@ QuizGame.Home.prototype = {
     // },
     createTextHeaders:function(){
         var previous;
-        var texts = ['Lets Jump In!!'];
+        var texts = [];
         var group = this.game.add.group();
         var that = this;
         texts.forEach( function(text){
@@ -114,6 +117,32 @@ QuizGame.Home.prototype = {
             font: "38pt Arial", fill: "#000000", wordWrap: false,  align: "left", backgroundColor:'#FFFFFF' };
     },
     actionOnClick:function(){
+	
+	Swal.mixin({
+  imageUrl: 'https://cdn4.iconfinder.com/data/icons/keyboard-solid-style/24/keyboard-arrows-512.png',
+  imageWidth: 400,
+  imageHeight: 200,
+  imageAlt: 'Custom image',
+  animation: false,
+  confirmButtonText: 'Next &rarr;',
+  showCancelButton: true,
+  progressSteps: ['1', '2', '3']
+}).queue([
+  {
+    title: 'Question 1',
+    text: 'Chaining  modals is easy'
+  },
+  'Question 2',
+  'Question 3'
+]).then((result) => {
+  if (result.value) {
+    Swal.fire({
+      title: 'All done!',
+      confirmButtonText: 'Lovely!'
+    })
+  }
+})
+
         this.state.start('loadgame');
     }
 }

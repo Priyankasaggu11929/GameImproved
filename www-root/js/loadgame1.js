@@ -1,8 +1,8 @@
 var QuizGame = QuizGame || {};
-QuizGame.Options = function () {
+QuizGame.LoadGame = function () {
 }
 
-QuizGame.Options.prototype = {
+QuizGame.LoadGame.prototype = {
     init: function () {
         // this.categoryIndex = 0;
         // this.currentQuestionIndex = 0;
@@ -37,7 +37,7 @@ QuizGame.Options.prototype = {
         
         var rectCanvas = QuizGame.Utils.getRectCanvas();
 
-        var startAgain_btn = this.game.add.button(600, 520, 'buttonNext', this.actionOnClick,this,2,1,0);
+        var startAgain_btn = this.game.add.button(400, 350, 'buttonNext', this.actionOnClick,this,2,1,0);
         
         // var data = this.game.cache.getJSON('questions');
         // this.remainingLives = data.lives;
@@ -87,7 +87,7 @@ QuizGame.Options.prototype = {
     // },
     createTextHeaders:function(){
         var previous;
-        var texts = ['Want to Try Again ?'];
+        var texts = ["Let's get started..."];
         var group = this.game.add.group();
         var that = this;
         texts.forEach( function(text){
@@ -103,7 +103,7 @@ QuizGame.Options.prototype = {
     createText:function(textContent){
         var style = this.getStyleCategory();
         style.font = 'Audiowide';
-        style.fontSize = '48pt';
+        style.fontSize = '40pt';
         style.backgroundColor = '#f4bf42';
         style.fill= '#000000';
         return this.game.add.text(0,0,textContent, style);
@@ -113,6 +113,6 @@ QuizGame.Options.prototype = {
             font: "38pt Arial", fill: "#000000", wordWrap: false,  align: "left", backgroundColor:'#FFFFFF' };
     },
     actionOnClick:function(){
-        this.state.start('home');
+        this.state.start('loading');
     }
 }

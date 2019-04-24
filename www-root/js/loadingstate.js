@@ -14,6 +14,14 @@ QuizGame.LoadingState.prototype = {
     this.game.load.json('level:0', 'data/level00.json');
     this.game.load.json('level:1', 'data/level01.json');
     this.game.load.json('level:2', 'data/level02.json');
+    this.game.load.json('level:3', 'data/level03.json');
+    this.game.load.json('level:4', 'data/level04.json');
+    this.game.load.json('level:5', 'data/level05.json');
+    this.game.load.json('level:6', 'data/level06.json');
+    this.game.load.json('level:7', 'data/level07.json');
+    this.game.load.json('level:8', 'data/level08.json');
+
+
 
     this.game.load.image('font:numbers', 'images/numbers.png');
 
@@ -51,5 +59,17 @@ QuizGame.LoadingState.prototype = {
 
     create: function () {
     this.game.state.start('play', true, false, {level: 0});
+     const Toast = Swal.mixin({
+                         toast: true,
+                          position: 'top',
+                          showConfirmButton: false,
+                          timer: 3000
+                        });
+
+                Toast.fire({
+                  type: 'info',
+                  title: 'Level 1'
+                })
+
     }
 }

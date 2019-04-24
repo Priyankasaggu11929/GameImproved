@@ -114,7 +114,7 @@ QuizGame.Intro = function () {
 
 QuizGame.Intro.prototype = {
     preload: function () {
-        this.load.atlas('bot', 'assets/feat/running_bot.png', null, botData);
+        
     },
     create: function () {
         var rectCanvas = QuizGame.Utils.getRectCanvas();
@@ -128,12 +128,7 @@ QuizGame.Intro.prototype = {
         intoGroup.add(textGroup);
         intoGroup.alignIn(rectCanvas,Phaser.CENTER);
 
-        // bot animation
-  //      bot = this.add.sprite(this.world.centerX, 300, 'bot');
-
-    //    bot.animations.add('run');
-    //    bot.animations.play('run', 10, true);
-
+        
     },
     createButtons:function(){
         this.previousButton = null;
