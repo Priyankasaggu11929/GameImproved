@@ -1,7 +1,5 @@
 var QuizGame = QuizGame || {};
-/*
 var bot;
-
 
 /////////////////////// BOT DATA //////////////////////////////
 var botData = {
@@ -105,8 +103,6 @@ var botData = {
         "smartupdate": "$TexturePacker:SmartUpdate:fb56f261b1eb04e3215824426595f64c$"
 }
 };
-
-*/
 ///////////////////////////////////////////////////////////////
 
 QuizGame.Intro = function () {
@@ -114,10 +110,13 @@ QuizGame.Intro = function () {
 
 QuizGame.Intro.prototype = {
     preload: function () {
-        
+        this.load.atlas('bot', 'assets/feat/running_bot.png', null, botData);
     },
     create: function () {
+        this.stage.backgroundColor = '#ffffff';
         var rectCanvas = QuizGame.Utils.getRectCanvas();
+        var intro_img = this.game.add.sprite(window.innerWidth,window.innerHeight, 'intro-img');
+        intro_img.alignIn(rectCanvas,Phaser.CENTER);
         var data = this.game.cache.getJSON('questions');
         this.remainingLives = data.lives;
         var intoGroup = this.game.add.group();
@@ -126,9 +125,14 @@ QuizGame.Intro.prototype = {
         buttonsGroup.alignTo(textGroup,Phaser.BOTTOM_CENTER);
         intoGroup.add(buttonsGroup);
         intoGroup.add(textGroup);
-        intoGroup.alignIn(rectCanvas,Phaser.CENTER);
+        intoGroup.alignIn(rectCanvas,Phaser.TOP_CENTER);
 
-        
+        // bot animation
+        bot = this.add.sprite(this.world.centerX, 300, 'bot');
+
+        bot.animations.add('run');
+        bot.animations.play('run', 10, true);
+        this.showExitButton();
     },
     createButtons:function(){
         this.previousButton = null;
@@ -153,7 +157,7 @@ QuizGame.Intro.prototype = {
     },
     createTextHeaders:function(){
         var previous;
-        var texts = ['Welcome on board!','Let\'s test your skills','Choose your age!'];
+        var texts = ['Let\'s test your skills','Choose your age!'];
         var group = this.game.add.group();
         var that = this;
         texts.forEach( function(text){
@@ -170,12 +174,19 @@ QuizGame.Intro.prototype = {
         var style = this.getStyleCategory();
         style.font = 'Audiowide';
         style.fontSize = '38pt';
-        style.backgroundColor = '#f4bf42';
+        style.backgroundColor = '#ffffff';
         style.fill= '#000000';
         return this.game.add.text(0,0,textContent, style);
     },
     getStyleCategory:function(){
         return { 
             font: "38pt Arial", fill: "#000000", wordWrap: false,  align: "left", backgroundColor:'#FFFFFF' };
+    },
+    showExitButton:function(){
+        var button = this.game.add.button(0,0, 'back-btn', this.onButtonExitClicked, this, 2, 1, 0);        
+        button.alignIn(QuizGame.Utils.getRectCanvas(),Phaser.BOTTOM_RIGHT);
+    },
+    onButtonExitClicked:function(){
+        this.state.start('home');
     }
 }
