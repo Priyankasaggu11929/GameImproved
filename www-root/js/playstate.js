@@ -30,37 +30,6 @@ function Hero(game, x, y) {
     this.animations.add('die', [5, 6, 5, 6, 5, 6, 5, 6], 12); // 12fps no loop
     // starting animation
     this.animations.play('stop');
-
-// create our virtual game controller buttons
-    buttonjump = this.game.add.button(850, 450, 'buttonjump', null, this, 0, 1, 0, 1);  //game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame
-    buttonjump.fixedToCamera = true;  //our buttons should stay on the same place
-    buttonjump.events.onInputOver.add(function(){jumpy=true;});
-    buttonjump.events.onInputOut.add(function(){jumpy=false;});
-    buttonjump.events.onInputDown.add(function(){jumpy=true;});
-    buttonjump.events.onInputUp.add(function(){jumpy=false;});
-
-
-    buttonleft = this.game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
-    buttonleft.fixedToCamera = true;
-    buttonleft.events.onInputOver.add(function(){lefty=true;});
-    buttonleft.events.onInputOut.add(function(){lefty=false;});
-    buttonleft.events.onInputDown.add(function(){lefty=true;});
-    buttonleft.events.onInputUp.add(function(){lefty=false;});
-
-
-    buttonright = this.game.add.button(96, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
-    buttonright.fixedToCamera = true;
-    buttonright.events.onInputOver.add(function(){righty=true;});
-    buttonright.events.onInputOut.add(function(){righty=false;});
-    buttonright.events.onInputDown.add(function(){righty=true;});
-    buttonright.events.onInputUp.add(function(){righty=false;});
-
-
-    if (this.game.input.currentPointers == 0 && !game.input.activePointer.isMouse){  righty=false; lefty=false; jumpy=false;} //this works around a "bug" where a button gets stuck in pressed state
-
-
-
-    
 }
 
 // inherit from Phaser.Sprite
@@ -225,7 +194,7 @@ QuizGame.PlayState.prototype = {
     this.coinPickupCount = 0;
     this.lifeCount = 3;
     this.hasKey = false;
-    this.answer="";	    
+    this.answer="";
     this.count=0;
     this.level = (data.level || 0) % LEVEL_COUNT;
     },
@@ -255,6 +224,42 @@ QuizGame.PlayState.prototype = {
 
     // create level entities and decoration
     this.game.add.image(0, 0, 'background');
+
+    //var touchButtonGroup = this.game.add.group();
+    //touchButtonGroup.alignIn(rectCanvas,Phase);
+    // create our virtual game controller buttons
+    //game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame
+    var buttonjump = this.game.add.button(950, 452, 'buttonjump', null, this, 0, 1, 0, 1);
+    buttonjump.fixedToCamera = true;  //our buttons should stay on the same place
+    buttonjump.events.onInputOver.add(function(){jumpy=true;});
+    buttonjump.events.onInputOut.add(function(){jumpy=false;});
+    buttonjump.events.onInputDown.add(function(){jumpy=true;});
+    buttonjump.events.onInputUp.add(function(){jumpy=false;});
+    //touchButtonGroup.add(buttonjump);
+
+    var buttonleft = this.game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonleft.fixedToCamera = true;
+    buttonleft.events.onInputOver.add(function(){lefty=true;});
+    buttonleft.events.onInputOut.add(function(){lefty=false;});
+    buttonleft.events.onInputDown.add(function(){lefty=true;});
+    buttonleft.events.onInputUp.add(function(){lefty=false;});
+    //buttonjump.alignIn(rectCanvas,Phaser.TOP_RIGHT);
+
+
+    var buttonright = this.game.add.button(96, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonright.fixedToCamera = true;
+    buttonright.events.onInputOver.add(function(){righty=true;});
+    buttonright.events.onInputOut.add(function(){righty=false;});
+    buttonright.events.onInputDown.add(function(){righty=true;});
+    buttonright.events.onInputUp.add(function(){righty=false;});
+
+    //touchButtonGroup.add();
+    //this works around a "bug" where a button gets stuck in pressed state
+    if (this.game.input.currentPointers == 0 && ! this.game.input.activePointer.isMouse)
+    {
+      righty=false; lefty=false; jumpy=false;
+    }
+
     this._loadLevel(this.game.cache.getJSON(`level:${this.level}`));
 
     // create UI score boards
@@ -267,8 +272,8 @@ QuizGame.PlayState.prototype = {
 
     // update scoreboards
     this.coinFont.text = `x${this.coinPickupCount}`;
-    this.keyIcon.frame = this.hasKey ? 1 : 0;	    
-    
+    this.keyIcon.frame = this.hasKey ? 1 : 0;
+
 
     if (this.lifeCount ==3){
      this.lifeIcon.frame = 0;
@@ -279,7 +284,7 @@ QuizGame.PlayState.prototype = {
     else {
     this.lifeIcon.frame = 2;
     }
-	
+
 	},
     shutdown: function () {
     this.bgm.stop();
@@ -348,9 +353,9 @@ QuizGame.PlayState.prototype = {
         hero.bounce();
         this.sfx.stomp.play();
     }
-	
+
     else { // game over -> play dying animation and restart the game
-	 
+
         hero.die();
         this.sfx.stomp.play();
         hero.events.onKilled.addOnce(function () {
@@ -364,15 +369,15 @@ QuizGame.PlayState.prototype = {
         enemy.body.touching = enemy.body.wasTouching;
     }
     },
-	
+
 
     _onHeroVsDoor: async function (hero, door) {
     // 'open' the door by changing its graphic and playing a sfx
     door.frame = 1;
     this.sfx.door.play();
-	  
+
     hero.freeze();
-	    
+
     if (this.level ==0){
 
 	  const Toast = Swal.mixin({
@@ -385,7 +390,7 @@ QuizGame.PlayState.prototype = {
 Toast.fire({
   type: 'info',
   title: 'level 1'
-});  
+});
    	 const {value: ans} =  await Swal.fire({
 	 type: 'question',
 	 title: 'The World Largest desert is?',
@@ -402,7 +407,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Sahara') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -414,7 +419,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
@@ -422,7 +427,7 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
+            .onComplete.addOnce(this._goToNextLevel, this);
 	}
 
  }
@@ -445,7 +450,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Nepal') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -457,7 +462,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
@@ -465,11 +470,11 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
  }
 
-    
+
     else if (this.level ==2){
      const {value: ans} =  await Swal.fire({
 	 type: 'question',
@@ -487,7 +492,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Jaipur') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -499,7 +504,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
@@ -507,11 +512,11 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
  }
 
-	    
+
     else if (this.level ==3){
      const {value: ans} =  await Swal.fire({
 	 type: 'question',
@@ -529,9 +534,9 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Japan') {
 		        resolve()
-		      } 
+		      }
 		else {
-		        resolve('Try selecting another option :)')
+		        resolve('Try selecting another option :(')
 		      }
 		    })
 	  }
@@ -541,7 +546,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: :)' + ans,
 			timer: 1500
 
 		});
@@ -549,11 +554,11 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
  }
 
-	    
+
     else if (this.level ==4){
      const {value: ans} =  await Swal.fire({
 	 type: 'question',
@@ -571,7 +576,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Venus') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -583,7 +588,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
@@ -591,11 +596,11 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
  }
 
-	
+
 	  else if (this.level ==5){
      const {value: ans} =  await Swal.fire({
 	 type: 'question',
@@ -613,7 +618,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Carbon Dioxide') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -625,7 +630,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
@@ -633,10 +638,10 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    	
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
 }
-	    
+
     else if (this.level ==6){
      const {value: ans} =  await Swal.fire({
 	 type: 'question',
@@ -654,7 +659,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'New York, USA') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -666,7 +671,7 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
@@ -674,8 +679,8 @@ Toast.fire({
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
 }
 
 	  else if (this.level ==7){
@@ -695,7 +700,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === '12') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -707,15 +712,15 @@ Toast.fire({
 			Swal.fire({
 			type: 'success',
 		        title:'Yipee, you made it to next level',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
 
 	this.game.add.tween(hero)
             .to({x: this.door.x, alpha: 0}, 500, null, true)
-            .onComplete.addOnce(this._goToNextLevel, this); 
-	}    	 
+            .onComplete.addOnce(this._goToNextLevel, this);
+	}
 }
 
 	 else if (this.level ==8){
@@ -735,7 +740,7 @@ Toast.fire({
 		return new Promise((resolve) => {
 		if (value === 'Six') {
 		        resolve()
-		      } 
+		      }
 		else {
 		        resolve('Try selecting another option :)')
 		      }
@@ -746,14 +751,14 @@ Toast.fire({
 	if (ans) {Swal.fire({
 			type: 'success',
 		        title:'Voila, You made it till end!',
-		       	text:'You chose the correct answer: ' + ans,		
+		       	text:'You chose the correct answer: ' + ans,
 			timer: 1500
 
 		});
 
 
-		this.game.state.start('endgame'); 
-	}    
+		this.game.state.start('endgame');
+	}
  }
 },
     // play 'enter door' animation and change to the next level when it ends
@@ -773,7 +778,7 @@ Toast.fire({
 
 		const Toast = Swal.mixin({
  			 toast: true,
-			  position: 'top',	
+			  position: 'top',
 			  showConfirmButton: false,
 			  timer: 3000
 			});
@@ -781,7 +786,7 @@ Toast.fire({
 		Toast.fire({
 		  type: 'info',
 		  title: 'Level '+(this.level+2)
-		})    
+		})
         // change to next level
         this.game.state.restart(true, false, {
             level: this.level + 1
@@ -858,7 +863,7 @@ Toast.fire({
     sprite.body.allowGravity = false;
     },
 
-	
+
     _spawnCoin: function (coin) {
     let sprite = this.coins.create(coin.x, coin.y, 'coin');
     sprite.anchor.set(0.5, 0.5);
@@ -917,7 +922,7 @@ Toast.fire({
     this.hud.add(coinIcon);
     this.hud.add(coinScoreImg);
     this.hud.add(this.keyIcon);
-    this.hud.add(this.lifeIcon);	   
+    this.hud.add(this.lifeIcon);
     this.hud.position.set(10, 10);
     }
 

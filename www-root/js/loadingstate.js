@@ -26,7 +26,7 @@ QuizGame.LoadingState.prototype = {
     this.game.load.image('font:numbers', 'images/numbers.png');
 
     this.game.load.image('icon:coin', 'images/coin_icon.png');
-    this.game.load.image('background', 'images/background.png', window.innerWidth, window.innerHeight);
+    this.game.load.image('background', 'assets/feat/new-background.png');
     this.game.load.image('invisible-wall', 'images/invisible_wall.png');
     this.game.load.image('ground', 'images/ground.png');
     this.game.load.image('grass:8x1', 'images/grass_8x1.png');
