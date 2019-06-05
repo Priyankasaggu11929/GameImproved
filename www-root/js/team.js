@@ -67,6 +67,6 @@ QuizGame.Team.prototype = {
             font: "38pt Arial", fill: "#000000", wordWrap: false,  align: "left", backgroundColor:'#FFFFFF' };
     },
     actionOnClick:function(){
-        this.state.start('loadgame');
+        this.state.start('options');
     }
 }

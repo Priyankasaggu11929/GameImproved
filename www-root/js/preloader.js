@@ -71,6 +71,7 @@ QuizGame.PreLoader.prototype = {
         this.load.image('exitButton', 'assets/exit.png');
 
         // my_assets
+        this.load.image('contribute', 'assets/feat/octocat.png');
         this.load.image('game-over-image', 'assets/feat/game-over.png');
         this.load.image('timeup-img', 'assets/feat/timeup.png');
         this.load.image('intro-img', 'assets/feat/intro-image.png');

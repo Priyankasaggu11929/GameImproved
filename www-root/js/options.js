@@ -48,8 +48,8 @@ QuizGame.Options.prototype = {
 
         var restart_btn = this.game.add.button(0, 0, 'restart', this.restartGame,this,2,1,0);
         var home_btn = this.game.add.button(0, 0, 'home', this.returnHome,this,2,1,0);
-        var menu_btn = this.game.add.button(0, 0, 'menu', this.returnToMenu,this,2,1,0);
-        //var donate_btn = this.game.add.button(0, 0, 'donate', this.donate,this,2,1,0);
+        //var menu_btn = this.game.add.button(0, 0, 'menu', this.returnToMenu,this,2,1,0);
+        var contribute_btn = this.game.add.button(0, 0, 'contribute', this.contributeUs,this,2,1,0);
         var contact_btn = this.game.add.button(0, 0, 'contact', this.contactUs,this,2,1,0);
         
         // var data = this.game.cache.getJSON('questions');
@@ -64,11 +64,11 @@ QuizGame.Options.prototype = {
         intoGroup.add(buttonGroup);
         buttonGroup.add(restart_btn);
         buttonGroup.add(home_btn);
-        buttonGroup.add(menu_btn);
-        //buttonGroup.add(donate_btn);
+        //buttonGroup.add(menu_btn);
+        buttonGroup.add(contribute_btn);
         //buttonGroup.alignTo(textGroup,Phaser.BOTTOM_CENTER);
         restart_btn.alignTo(home_btn, Phaser.RIGHT_CENTER,20);
-        menu_btn.alignTo(restart_btn,Phaser.RIGHT_CENTER,20);
+        contribute_btn.alignTo(restart_btn,Phaser.RIGHT_CENTER,20);
         //donate_btn.alignTo(menu_btn,Phaser.BOTTOM_CENTER);
         contact_btn.alignIn(rectCanvas,Phaser.BOTTOM_CENTER);
         intoGroup.alignIn(rectCanvas,Phaser.CENTER);
@@ -138,18 +138,21 @@ QuizGame.Options.prototype = {
     restartGame:function(){
         dash_sound.stop();
         btn5.play();
-        this.state.start('loading-0');
+        this.state.start('boot');
     },
     returnHome:function(){
-        this.state.start('home');
+        this.state.start('loadgame');
     },
     returnToMenu:function(){
-        this.state.start('loadgame');
+        this.state.start('');
     },
     // donate:function(){
     //     window.open("");
     // },
     contactUs:function(){
         this.state.start('team');
+    },
+    contributeUs:function(){
+        window.open("https://github.com/Priyankasaggu11929/Interactive_Quiz_Game");
     }
 }

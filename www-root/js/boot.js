@@ -8,7 +8,7 @@ QuizGame.Boot.prototype = {
     preload: function () { 
         this.game.load.image('quiz-play', 'assets/feat/starfield.jpg');
         this.game.load.image('loading',  'assets/feat/loading-1.png');
-        this.game.load.image('logo',    'assets/feat/logo.png');
+        this.game.load.image('logo',    'assets/feat/new-logo.png');
         this.game.load.script('utils',   'js/utils.js');
     },
     create: function () {

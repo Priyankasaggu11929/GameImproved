@@ -757,7 +757,7 @@ Toast.fire({
 		});
 
 
-		this.game.state.start('endgame');
+		this.game.state.start('options');
 	}
  }
 },
