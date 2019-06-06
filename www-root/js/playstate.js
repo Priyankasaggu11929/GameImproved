@@ -12,6 +12,7 @@ var jumpy=false;
 //
 // Hero
 //
+var remainingLives = 3;
 
 function Hero(game, x, y) {
     // call Phaser.Sprite constructor
@@ -184,7 +185,7 @@ QuizGame.PlayState = function () {
 
 QuizGame.PlayState.prototype = {
 
-    init: function (data) {
+    init: function (data,lifeCount) {
     this.keys = this.game.input.keyboard.addKeys({
         left: Phaser.KeyCode.LEFT,
         right: Phaser.KeyCode.RIGHT,
@@ -192,7 +193,7 @@ QuizGame.PlayState.prototype = {
     });
 
     this.coinPickupCount = 0;
-    this.lifeCount = 3;
+    this.lifeCount = lifeCount;
     this.hasKey = false;
     this.answer="";
     this.count=0;
@@ -275,10 +276,10 @@ QuizGame.PlayState.prototype = {
     this.keyIcon.frame = this.hasKey ? 1 : 0;
 
 
-    if (this.lifeCount ==3){
+    if (remainingLives ==3){
      this.lifeIcon.frame = 0;
     }
-    else if (this.lifeCount ==2) {
+    else if (remainingLives ==2) {
      this.lifeIcon.frame = 1;
     }
     else {
@@ -359,10 +360,18 @@ QuizGame.PlayState.prototype = {
         hero.die();
         this.sfx.stomp.play();
         hero.events.onKilled.addOnce(function () {
-            this.game.state.restart(true, false, {level: this.level}, this.lifeCount);
+            this.lifeCount = this.lifeCount -1;
+            remainingLives--;
+            console.log(remainingLives);
+            if (remainingLives == 0){
+              this.game.state.start('endgame');
+            }
+            else{
+            //this.game.state.restart(true, false, {level: this.level}, this.lifeCount);
+            this.game.state.start('play',true, false, {level: this.level}, remainingLives);
+            }
         }, this);
 
-	this.lifeCount--;
         // NOTE: bug in phaser in which it modifies 'touching' when
         // checking for overlaps. This undoes that change so spiders don't
         // 'bounce' agains the hero
@@ -788,9 +797,9 @@ Toast.fire({
 		  title: 'Level '+(this.level+2)
 		})
         // change to next level
-        this.game.state.restart(true, false, {
+        this.game.state.start('play',true, false, {
             level: this.level + 1
-        });
+        },remainingLives);
 
     }, this);
     },

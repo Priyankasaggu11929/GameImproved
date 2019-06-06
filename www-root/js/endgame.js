@@ -20,10 +20,10 @@ QuizGame.EndGame.prototype = {
     },
     gameover: function(){
         this.gameOverSound.play();
-        var imageGameOver = this.game.add.image(0,160, 'game-over-image');
+        var imageGameOver = this.game.add.image(0,200, 'game-over-image');
         imageGameOver.alignIn(this.rectCanvas,Phaser.CENTER);
         var buttonStarOver = this.game.add.button(0,0, 'buttonNext', this.onStarOver, this, 2, 1, 0);
-        buttonStarOver.alignIn(imageGameOver, Phaser.BOTTOM_CENTER, 0);
+        buttonStarOver.alignIn(imageGameOver, Phaser.BOTTOM_CENTER, 0,-70);
     },
     winner: function(){
         this.winnerSound.play();

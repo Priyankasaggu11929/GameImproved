@@ -58,7 +58,8 @@ QuizGame.LoadingState.prototype = {
     },
 
     create: function () {
-    this.game.state.start('play', true, false, {level: 0});
+    this.lifeCount = 3;
+    this.game.state.start('play', true, false, {level: 0},this.lifeCount);
      const Toast = Swal.mixin({
                          toast: true,
                           position: 'top',
