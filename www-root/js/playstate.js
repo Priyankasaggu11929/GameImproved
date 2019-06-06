@@ -224,6 +224,7 @@ QuizGame.PlayState.prototype = {
 
     this.coinPickupCount = 0;
     this.lifeCount = 3;
+    this.coincount=0;	    
     this.hasKey = false;
     this.answer="";	    
     this.count=0;
@@ -335,10 +336,206 @@ QuizGame.PlayState.prototype = {
     this.hasKey = true;
     },
 
-    _onHeroVsCoin: function (hero, coin) {
+    _onHeroVsCoin: async function (hero, coin) {
     this.sfx.coin.play();
     coin.kill();
-    this.coinPickupCount++;
+//    this.coinPickupCount++;
+
+     if (this.level ==0){
+
+   	if(this.coincount==0){
+         const {value: ans} =  await Swal.fire({
+		 type: 'question',
+		 title: 'Which soil is suitable for agriculture ?',
+         input: 'select',
+         inputOptions: {
+            'Red Soil': 'Red Soil',
+            'Sand': 'Sand',
+            'Black Soil': 'Black Soil',
+            'Peaty Soil': 'Peaty Soil'
+          },
+          inputPlaceholder: 'Choose your answer...',
+          showCancelButton: true,
+          inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value === 'Peaty Soil') {
+                        resolve()
+                      }
+                else {
+                        resolve('Try selecting another option :)')
+                      }
+                    })
+          }
+        })
+	       if (ans) {
+                        Swal.fire({
+                        type: 'success',
+                        title:'Yipee 😊',
+                        text:'You chose the correct answer: ' + ans,
+                        timer: 1500
+
+                });
+	this.coinPickupCount++;
+        this.coincount++;
+     }    
+    
+     }
+
+	 else if(this.coincount==1){
+         const {value: ans} =  await Swal.fire({
+         type: 'question',
+         title: 'The device used for measuring altitudes is ?',
+         input: 'select',
+         inputOptions: {
+            'Altimeter': 'Altimeter',
+            'Ammeter': 'Ammeter',
+            'Audiometer': 'Audiometer',
+            'Galvanometer': 'Galvanometer'
+          },
+          inputPlaceholder: 'Choose your answer...',
+          showCancelButton: true,
+          inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value === 'Altimeter') {
+                        resolve()
+                      }
+                else {
+                        resolve('Try selecting another option :)')
+                      }
+                    })
+          }
+        })
+               if (ans) {
+                        Swal.fire({
+                        type: 'success',
+                        title:'Yipee! 😊',
+                        text:'You chose the correct answer: ' + ans,
+                        timer: 1500
+
+                });
+        this.coinPickupCount++;
+        this.coincount++;
+     }
+
+     }
+	 
+	 else if (this.coincount==2){
+         const {value: ans} =  await Swal.fire({
+         type: 'question',
+         title: 'The Gate Way of india is in?',
+         input: 'select',
+         inputOptions: {
+            'Chennai': 'Chennai',
+            'Mumbai': 'Mumbai',
+            'Kolkata': 'Kolkata',
+            'New Delhi': 'New Delhi'
+          },
+          inputPlaceholder: 'Choose your answer...',
+          showCancelButton: true,
+          inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value === 'Mumbai') {
+                        resolve()
+                      }
+                else {
+                        resolve('Try selecting another option :)')
+                      }
+                    })
+          }
+        })
+               if (ans) {
+                        Swal.fire({
+                        type: 'success',
+                        title:'Yeah 😄',
+                        text:'You chose the correct answer: ' + ans,
+                        timer: 1500
+
+                });
+        this.coinPickupCount++;
+        this.coincount++;
+     } 
+    
+     }
+
+         else if(this.coincount==3){
+         const {value: ans} =  await Swal.fire({
+         type: 'question',
+         title: 'The Deficiency of Iron leads to ?',
+         input: 'select',
+         inputOptions: {
+            'Rickets': 'Rickets',
+            'Malaria': 'Malaria',
+            'Dental Cavity': 'Dental Cavity',
+            'Anaemia': 'Anaemia'
+          },
+          inputPlaceholder: 'Choose your answer...',
+          showCancelButton: true,
+          inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value === 'Anaemia') {
+                        resolve()
+                      }
+                else {
+                        resolve('Try selecting another option :)')
+                      }
+                    })
+          }
+        })
+               if (ans) {
+                        Swal.fire({
+                        type: 'success',
+                        title:'Yipee, 😄',
+                        text:'You chose the correct answer: ' + ans,
+                        timer: 1500
+
+                });
+        this.coinPickupCount++;
+        this.coincount++;
+     }
+
+     }
+
+         else if(this.coincount==4){
+         const {value: ans} =  await Swal.fire({
+         type: 'question',
+         title: 'The largest river in India is?',
+         input: 'select',
+         inputOptions: {
+            'Yamuna': 'Yamuna',
+            'Kaveri': 'Kaveri',
+            'Ganga': 'Ganga',
+            'Brahmaputra': 'Brahmaputra'
+          },
+          inputPlaceholder: 'Choose your answer...',
+          showCancelButton: true,
+          inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value === 'Ganga') {
+                        resolve()
+                      }
+                else {
+                        resolve('Try selecting another option :)')
+                      }
+                    })
+          }
+        })
+               if (ans) {
+                        Swal.fire({
+                        type: 'success',
+                        title:'Finally ! Hurrah 🎉 ',
+                        text:'You chose the correct answer: ' + ans,
+                        timer: 1500
+
+                });
+        this.coinPickupCount++;
+        this.coincount++;
+     }
+
+     }
+
+	     
+
+    }
     },
 
     _onHeroVsEnemy: function (hero, enemy) {
@@ -413,7 +610,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -456,7 +653,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -498,7 +695,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -540,7 +737,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -582,7 +779,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -624,7 +821,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -665,7 +862,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -706,7 +903,7 @@ Toast.fire({
 	if (ans) {
 			Swal.fire({
 			type: 'success',
-		        title:'Yipee, you made it to next level',
+		        title:'Yipee, you made it to next level 😄',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
@@ -745,7 +942,7 @@ Toast.fire({
 
 	if (ans) {Swal.fire({
 			type: 'success',
-		        title:'Voila, You made it till end!',
+		        title:'Voila, You made it till end! 🎉',
 		       	text:'You chose the correct answer: ' + ans,		
 			timer: 1500
 
