@@ -12,7 +12,7 @@ QuizGame.Answer.prototype = {
     },
     create:function(){
         this.rectCanvas = QuizGame.Utils.getRectCanvas();
-        var quiz_play = this.game.add.sprite(window.innerWidth,window.innerHeight, 'quiz-play');
+        var quiz_play = this.game.add.sprite(960,600, 'quiz-play');
         quiz_play.alignIn(this.rectCanvas,Phaser.CENTER);
         this.data = this.game.cache.getJSON('questions');
         var imageQuestion = this.showImageQuestion(this.categoryIndexSelected,this.currentQuestionIndex);

@@ -231,7 +231,7 @@ QuizGame.PlayState.prototype = {
     //touchButtonGroup.alignIn(rectCanvas,Phase);
     // create our virtual game controller buttons
     //game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame
-    var buttonjump = this.game.add.button(950, 452, 'buttonjump', null, this, 0, 1, 0, 1);
+    var buttonjump = this.game.add.button(800, 452, 'buttonjump', null, this, 0, 1, 0, 1);
     buttonjump.fixedToCamera = true;  //our buttons should stay on the same place
     buttonjump.events.onInputOver.add(function(){jumpy=true;});
     buttonjump.events.onInputOut.add(function(){jumpy=false;});

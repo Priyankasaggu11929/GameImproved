@@ -1,6 +1,6 @@
 var QuizGame = QuizGame || {};
 //QuizGame.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '');
-QuizGame.game = new Phaser.Game(window.innerWidth,window.innerHeight,Phaser.AUTO, '');
+QuizGame.game = new Phaser.Game(900,600,Phaser.AUTO, '');
 QuizGame.game.state.add('boot', QuizGame.Boot);
 QuizGame.game.state.add('intro', QuizGame.Intro);
 QuizGame.game.state.add('question', QuizGame.Question);

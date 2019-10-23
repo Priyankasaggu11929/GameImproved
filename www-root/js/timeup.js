@@ -35,7 +35,7 @@ QuizGame.TimeUp.prototype = {
     },
     create: function () {
         var rectCanvas = QuizGame.Utils.getRectCanvas();
-        var quiz_play = this.game.add.sprite(window.innerWidth,window.innerHeight, 'quiz-play');
+        var quiz_play = this.game.add.sprite(960,600, 'quiz-play');
         quiz_play.alignIn(rectCanvas,Phaser.CENTER);
         var timeup_img = this.game.add.sprite(0,0,'timeup-img');
         timeup_img.alignIn(rectCanvas,Phaser.CENTER);

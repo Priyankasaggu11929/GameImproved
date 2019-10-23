@@ -20,7 +20,7 @@ QuizGame.Team.prototype = {
         this.game.stage.backgroundColor = '#f4bf42';
         
         var rectCanvas = QuizGame.Utils.getRectCanvas();
-        var quiz_play = this.game.add.sprite(window.innerWidth,window.innerHeight, 'quiz-play');
+        var quiz_play = this.game.add.sprite(500,300, 'quiz-play');
         quiz_play.alignIn(rectCanvas,Phaser.CENTER);
         var team = this.game.add.image(0,0, 'team');
         team.alignIn(rectCanvas,Phaser.CENTER);

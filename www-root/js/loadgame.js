@@ -29,7 +29,7 @@ QuizGame.LoadGame.prototype = {
         this.game.stage.backgroundColor = '#f4bf42';
         
         var rectCanvas = QuizGame.Utils.getRectCanvas();
-        var quiz_play = this.game.add.sprite(window.innerWidth,window.innerHeight, 'quiz-play');
+        var quiz_play = this.game.add.sprite(900,550, 'quiz-play');
         quiz_play.alignIn(rectCanvas,Phaser.CENTER);
 
         var play_btn = this.game.add.button(0, 0, 'play-btn', this.actionOnClick,this,2,1,0);

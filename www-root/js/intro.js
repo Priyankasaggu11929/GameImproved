@@ -115,7 +115,7 @@ QuizGame.Intro.prototype = {
     create: function () {
         this.stage.backgroundColor = '#ffffff';
         var rectCanvas = QuizGame.Utils.getRectCanvas();
-        var intro_img = this.game.add.sprite(window.innerWidth,window.innerHeight, 'intro-img');
+        var intro_img = this.game.add.sprite(960,600, 'intro-img');
         intro_img.alignIn(rectCanvas,Phaser.CENTER);
         var data = this.game.cache.getJSON('questions');
         this.remainingLives = data.lives;

@@ -8,7 +8,7 @@ QuizGame.EndGame.prototype = {
     },
     create: function(){
 	btn3 = this.game.add.audio('btn-click');
-        this.rectCanvas = new Phaser.Rectangle(0,0, window.innerWidth, window.innerHeight);
+        this.rectCanvas = new Phaser.Rectangle(0,0, 960,600);
         this.gameOverSound = this.game.add.audio('gameover');
         this.winnerSound = this.game.add.audio('yippee');
         
@@ -20,10 +20,10 @@ QuizGame.EndGame.prototype = {
     },
     gameover: function(){
         this.gameOverSound.play();
-        var imageGameOver = this.game.add.image(0,200, 'game-over-image');
+        var imageGameOver = this.game.add.image(0,-200, 'game-over-image');
         imageGameOver.alignIn(this.rectCanvas,Phaser.CENTER);
         var buttonStarOver = this.game.add.button(0,0, 'buttonNext', this.onStarOver, this, 2, 1, 0);
-        buttonStarOver.alignIn(imageGameOver, Phaser.BOTTOM_CENTER, 0,-70);
+        buttonStarOver.alignIn(imageGameOver, Phaser.BOTTOM_CENTER, 0,-50);
     },
     winner: function(){
         this.winnerSound.play();
