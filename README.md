@@ -8,8 +8,8 @@ Quiz Game in Phaser
 
 ## Install the Quiz Game
 ```sh
-git clone https://github.com/alanblins/quizgame.git
-cd quizgame
+git clone https://github.com/Priyankasaggu11929/Interactive_Quiz_Game.git
+cd Interactive_Quiz_Game
 npm i
 ```
 
